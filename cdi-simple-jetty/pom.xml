@@ -123,13 +123,6 @@
       <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <!-- Included for Agent -->
-    <dependency>
-      <groupId>com.garethahealy.jolokia-jvm-hawkular</groupId>
-      <artifactId>jolokia-jvm-hawkular-agent</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
   </dependencies>
 
 
@@ -194,7 +187,6 @@
         </executions>
         <configuration>
           <javaMainClass>org.apache.camel.cdi.Main</javaMainClass>
-          <JAVA_AGENT>-javaagent:jolokia-jvm-hawkular-agent-1.0.0-SNAPSHOT.jar=port=7777,host=localhost</JAVA_AGENT>
         </configuration>
       </plugin>
 

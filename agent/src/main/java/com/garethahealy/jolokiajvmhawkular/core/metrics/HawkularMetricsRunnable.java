@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.garethahealy.jolokiajvmhawkular.core;
+package com.garethahealy.jolokiajvmhawkular.core.metrics;
 
 public class HawkularMetricsRunnable implements Runnable {
 

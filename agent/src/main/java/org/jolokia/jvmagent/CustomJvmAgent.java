@@ -67,13 +67,13 @@ import java.io.IOException;
  * @since Mar 3, 2010
  */
 @SuppressWarnings("PMD.SystemPrintln" )
-public class JvmAgent {
+public class CustomJvmAgent {
 
     protected static JolokiaServer server;
 
     public static final String JOLOKIA_AGENT_URL = "jolokia.agent";
 
-    protected JvmAgent() {}
+    protected CustomJvmAgent() {}
 
     /**
      * Entry point for the agent, using command line attach

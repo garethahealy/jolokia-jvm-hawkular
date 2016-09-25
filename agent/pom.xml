@@ -40,11 +40,6 @@
                     <archive>
                         <manifestEntries>
                             <Premain-Class>com.garethahealy.jolokiajvmhawkular.core.Agent</Premain-Class>
-                            <Agent-Class>com.garethahealy.jolokiajvmhawkular.core.Agent</Agent-Class>
-                            <Main-Class>org.jolokia.jvmagent.client.AgentLauncher</Main-Class>
-                            <Can-Redefine-Classes>false</Can-Redefine-Classes>
-                            <Can-Retransform-Classes>false</Can-Retransform-Classes>
-                            <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
                         </manifestEntries>
                     </archive>
                 </configuration>

@@ -24,9 +24,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.garethahealy.jolokiajvmhawkular.core.metrics.HawkularMetricsRunnable;
+import com.garethahealy.jolokiajvmhawkular.core.metrics.HawkularMetricsService;
+
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.jolokia.backend.BackendManager;
-import org.jolokia.jvmagent.JvmAgent;
+import org.jolokia.jvmagent.CustomJvmAgent;
 import org.jolokia.jvmagent.handler.JolokiaHttpHandler;
 
 /**
@@ -35,10 +38,10 @@ import org.jolokia.jvmagent.handler.JolokiaHttpHandler;
  * (2)premain method
  * (3)JolokiaServer var
  */
-public final class Agent extends JvmAgent {
+public final class Agent extends CustomJvmAgent {
 
     public static void premain(String agentArgs) {
-        JvmAgent.premain(agentArgs);
+        CustomJvmAgent.premain(agentArgs);
 
         try {
             System.out.println("About to load BackendManager");
@@ -50,7 +53,7 @@ public final class Agent extends JvmAgent {
             BackendManager backendManager = (BackendManager)backendManagerField.get(jolokiaHttpHandler);
 
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-            exec.scheduleAtFixedRate(new HawkularMetricsRunnable(new HawkularMetricsService(backendManager)), 0, 5, TimeUnit.SECONDS);
+            exec.scheduleAtFixedRate(new HawkularMetricsRunnable(new HawkularMetricsService(backendManager)), 15, 15, TimeUnit.SECONDS);
 
             System.out.println("Started HawkularMetricsService ScheduledExecutorService");
         } catch (IllegalAccessException e) {
