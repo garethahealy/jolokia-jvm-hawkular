@@ -28,8 +28,8 @@ import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.ReflectionException;
 
-import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.HeapMemoryUsageCollector;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.Collector;
+import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.HeapMemoryUsageCollector;
 
 import org.jolokia.backend.BackendManager;
 import org.jolokia.request.JmxRequest;
