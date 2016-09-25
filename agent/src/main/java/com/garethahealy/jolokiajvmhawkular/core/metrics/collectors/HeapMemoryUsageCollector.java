@@ -17,20 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package com.garethahealy.jolokiajvmhawkular.core.metrics;
+package com.garethahealy.jolokiajvmhawkular.core.metrics.collectors;
 
-public class HawkularMetricsRunnable implements Runnable {
+import java.util.HashMap;
 
-    private final HawkularMetricsService service;
+import org.jolokia.config.Configuration;
+import org.jolokia.config.ProcessingParameters;
+import org.jolokia.request.JmxRequest;
+import org.jolokia.request.JmxRequestFactory;
+import org.json.simple.JSONObject;
 
-    public HawkularMetricsRunnable(HawkularMetricsService service) {
-        this.service = service;
+public class HeapMemoryUsageCollector implements Collector {
+
+    public JmxRequest generate() {
+        ProcessingParameters params = new Configuration().getProcessingParameters(new HashMap<String, String>());
+        return JmxRequestFactory.createGetRequest("read/java.lang:type=Memory/HeapMemoryUsage/used", params);
     }
 
-    @Override
-    public void run() {
-        service.run();
+    public void process(JSONObject response) {
+
     }
 }
-
-

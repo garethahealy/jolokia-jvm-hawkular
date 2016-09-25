@@ -31,20 +31,24 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.jolokia.backend.BackendManager;
 import org.jolokia.jvmagent.CustomJvmAgent;
 import org.jolokia.jvmagent.handler.JolokiaHttpHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Extends JvmAgent by making the base class non-final; protected:
+ * Extends JvmAgent by making the base class non-final and updating the below to be protected:
  * (1)constructor
  * (2)premain method
  * (3)JolokiaServer var
  */
-public final class Agent extends CustomJvmAgent {
+public final class EmbeddedHawkularMetricsAgent extends CustomJvmAgent {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EmbeddedHawkularMetricsAgent.class);
 
     public static void premain(String agentArgs) {
         CustomJvmAgent.premain(agentArgs);
 
         try {
-            System.out.println("About to load BackendManager");
+            LOG.info("About to load BackendManager...");
 
             Field jolokiaHttpHandlerField = FieldUtils.getDeclaredField(server.getClass(), "jolokiaHttpHandler", true);
             JolokiaHttpHandler jolokiaHttpHandler = (JolokiaHttpHandler)jolokiaHttpHandlerField.get(server);
@@ -55,12 +59,9 @@ public final class Agent extends CustomJvmAgent {
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(new HawkularMetricsRunnable(new HawkularMetricsService(backendManager)), 15, 15, TimeUnit.SECONDS);
 
-            System.out.println("Started HawkularMetricsService ScheduledExecutorService");
+            LOG.info("Started HawkularMetricsService via ScheduledExecutorService");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         }
-
     }
 }
-
-//agent -> JolokiaServer -> jolokiaHttpHandler -> backendManager

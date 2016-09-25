@@ -17,20 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package com.garethahealy.jolokiajvmhawkular.core.metrics;
+package com.garethahealy.jolokiajvmhawkular.core.metrics.collectors;
 
-public class HawkularMetricsRunnable implements Runnable {
+import org.jolokia.request.JmxRequest;
+import org.json.simple.JSONObject;
 
-    private final HawkularMetricsService service;
+public interface Collector {
 
-    public HawkularMetricsRunnable(HawkularMetricsService service) {
-        this.service = service;
-    }
+    JmxRequest generate();
 
-    @Override
-    public void run() {
-        service.run();
-    }
+    void process(JSONObject response);
 }
-
-

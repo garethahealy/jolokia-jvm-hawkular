@@ -15,16 +15,56 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>GarethHealy :: Jolokia JVM to Hawkular Metrics Agent</name>
 
+    <properties>
+        <log4j2-version>2.5</log4j2-version>
+        <jolokia-jvm-version>1.3.4</jolokia-jvm-version>
+        <commons-lang3-version>3.4</commons-lang3-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>${log4j2-version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.jolokia</groupId>
             <artifactId>jolokia-jvm</artifactId>
-            <version>1.3.4</version>
+            <version>${jolokia-jvm-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jul</artifactId>
         </dependency>
     </dependencies>
 
@@ -39,7 +79,7 @@
                     </descriptors>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>com.garethahealy.jolokiajvmhawkular.core.Agent</Premain-Class>
+                            <Premain-Class>com.garethahealy.jolokiajvmhawkular.core.EmbeddedHawkularMetricsAgent</Premain-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>

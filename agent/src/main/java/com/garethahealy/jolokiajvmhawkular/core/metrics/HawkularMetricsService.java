@@ -20,33 +20,40 @@
 package com.garethahealy.jolokiajvmhawkular.core.metrics;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.ReflectionException;
 
+import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.HeapMemoryUsageCollector;
+import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.Collector;
+
 import org.jolokia.backend.BackendManager;
-import org.jolokia.config.Configuration;
-import org.jolokia.config.ProcessingParameters;
 import org.jolokia.request.JmxRequest;
-import org.jolokia.request.JmxRequestFactory;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HawkularMetricsService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(HawkularMetricsService.class);
+
     private final BackendManager backendManager;
+    private final List<Collector> collectors = Arrays.asList((Collector)new HeapMemoryUsageCollector());
 
     public HawkularMetricsService(BackendManager backendManager) {
         this.backendManager = backendManager;
     }
 
-    public void getUsedMemory() {
-        ProcessingParameters params = new Configuration().getProcessingParameters(new HashMap<String, String>());
-        JmxRequest req = JmxRequestFactory.createGetRequest("read/java.lang:type=Memory/HeapMemoryUsage/used", params);
+    public void run() {
+        for (Collector current : collectors) {
+            JSONObject response = handleRequest(current.generate());
 
-        handleRequest(req);
+            current.process(response);
+        }
     }
 
     private JSONObject handleRequest(JmxRequest req) {
@@ -55,18 +62,18 @@ public class HawkularMetricsService {
         try {
             answer = backendManager.handleRequest(req);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         } catch (ReflectionException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         } catch (InstanceNotFoundException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         } catch (AttributeNotFoundException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         } catch (MBeanException e) {
-            e.printStackTrace();
+            LOG.error("{}", e);
         }
 
-        System.out.println(answer);
+        LOG.trace("Response for {} is {}", req, answer);
 
         return answer;
     }
