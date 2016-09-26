@@ -13,8 +13,9 @@ The Jolokia Agent is embedded with collectors which collect and then send to Haw
 ### cdi-simple-jetty
     cd cdi-simple-jetty
     mvn clean install
-    
-## Running example
+
+## Running
+### Running example
 The cdi-simple-jetty example is based on:
 
     https://github.com/fabric8io/ipaas-quickstarts/tree/cc3eb91c365936e40b759d321974329167073bc3/archetypes/cdi-camel-http-client-archetype 
@@ -27,7 +28,7 @@ You can then go to:
 
     http://localhost:8080/camel/hello?name=bob
 
-## Running Hawkular Metrics
+### Running Hawkular Metrics
 To run hawkular, you can use the following repo, which contains all the need Dockerfiles
 
     https://github.com/garethahealy/hawkular-aio-docker
@@ -35,3 +36,6 @@ To run hawkular, you can use the following repo, which contains all the need Doc
 Since the version of the Java Client i am using isnt currently released, you will need to build from source:
     
     https://github.com/garethahealy/hawkular-client-java
+
+## TODO
+- Setup jolokia as per OSE, with certs/ssl
