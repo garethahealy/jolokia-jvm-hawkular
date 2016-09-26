@@ -28,6 +28,10 @@ You can then go to:
     http://localhost:8080/camel/hello?name=bob
 
 ## Running Hawkular Metrics
+To run hawkular, you can use the following repo, which contains all the need Dockerfiles
 
+    https://github.com/garethahealy/hawkular-aio-docker
 
-hawkular-java-client
+Since the version of the Java Client i am using isnt currently released, you will need to build from source:
+    
+    https://github.com/garethahealy/hawkular-client-java
