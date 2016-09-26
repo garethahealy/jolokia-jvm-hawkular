@@ -16,22 +16,12 @@
     <name>GarethHealy :: Jolokia JVM to Hawkular Metrics Agent</name>
 
     <properties>
-        <log4j2-version>2.5</log4j2-version>
+        <slf4j-version>1.7.21</slf4j-version>
         <jolokia-jvm-version>1.3.4</jolokia-jvm-version>
         <commons-lang3-version>3.4</commons-lang3-version>
+        <hawkular-java-client-version>0.0.2-SNAPSHOT</hawkular-java-client-version>
+        <jackson-databind-version>2.8.3</jackson-databind-version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-bom</artifactId>
-                <version>${log4j2-version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -44,27 +34,15 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3-version}</version>
         </dependency>
-
-        <!-- Logging -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
+            <groupId>org.hawkular.client</groupId>
+            <artifactId>hawkular-java-client</artifactId>
+            <version>${hawkular-java-client-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-jcl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-jul</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-version}</version>
         </dependency>
     </dependencies>
 

@@ -21,16 +21,20 @@ package com.garethahealy.jolokiajvmhawkular.core.metrics;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.ReflectionException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.Collector;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.HeapMemoryUsageCollector;
 
+import org.hawkular.client.core.HawkularClient;
 import org.jolokia.backend.BackendManager;
 import org.jolokia.request.JmxRequest;
 import org.json.simple.JSONObject;
@@ -39,20 +43,32 @@ import org.slf4j.LoggerFactory;
 
 public class HawkularMetricsService {
 
+    public static final String TENANT = "cdi-simple-jetty";
+    
     private static final Logger LOG = LoggerFactory.getLogger(HawkularMetricsService.class);
 
     private final BackendManager backendManager;
+    private final HawkularClient client;
     private final List<Collector> collectors = Arrays.asList((Collector)new HeapMemoryUsageCollector());
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public HawkularMetricsService(BackendManager backendManager) {
+    public HawkularMetricsService(BackendManager backendManager, HawkularClient client) {
         this.backendManager = backendManager;
+        this.client = client;
     }
 
     public void run() {
+        LOG.info("Running...");
+
         for (Collector current : collectors) {
             JSONObject response = handleRequest(current.generate());
 
-            current.process(response);
+            try {
+                Map<String, Object> data = objectMapper.readValue(response.toJSONString(), LinkedHashMap.class);
+                current.process(client, data);
+            } catch (IOException e) {
+                LOG.error("{}", e);
+            }
         }
     }
 
@@ -73,7 +89,7 @@ public class HawkularMetricsService {
             LOG.error("{}", e);
         }
 
-        LOG.trace("Response for {} is {}", req, answer);
+        LOG.info("Response for {} is {}", req, answer);
 
         return answer;
     }

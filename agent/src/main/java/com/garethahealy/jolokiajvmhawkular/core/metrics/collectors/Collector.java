@@ -19,12 +19,14 @@
  */
 package com.garethahealy.jolokiajvmhawkular.core.metrics.collectors;
 
+import java.util.Map;
+
+import org.hawkular.client.core.HawkularClient;
 import org.jolokia.request.JmxRequest;
-import org.json.simple.JSONObject;
 
 public interface Collector {
 
     JmxRequest generate();
 
-    void process(JSONObject response);
+    void process(HawkularClient client, Map<String, Object> data);
 }

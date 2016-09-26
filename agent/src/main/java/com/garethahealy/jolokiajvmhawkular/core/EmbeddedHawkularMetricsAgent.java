@@ -20,14 +20,21 @@
 package com.garethahealy.jolokiajvmhawkular.core;
 
 import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import com.garethahealy.jolokiajvmhawkular.core.metrics.HawkularMetricsRunnable;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.HawkularMetricsService;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.hawkular.client.core.HawkularClient;
 import org.jolokia.backend.BackendManager;
 import org.jolokia.jvmagent.CustomJvmAgent;
 import org.jolokia.jvmagent.handler.JolokiaHttpHandler;
@@ -56,12 +63,42 @@ public final class EmbeddedHawkularMetricsAgent extends CustomJvmAgent {
             Field backendManagerField = FieldUtils.getDeclaredField(jolokiaHttpHandler.getClass(), "backendManager", true);
             BackendManager backendManager = (BackendManager)backendManagerField.get(jolokiaHttpHandler);
 
-            ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-            exec.scheduleAtFixedRate(new HawkularMetricsRunnable(new HawkularMetricsService(backendManager)), 15, 15, TimeUnit.SECONDS);
+            HawkularClient client = getHawkularClient();
+            if (client == null) {
+                LOG.error("HawkularClient is null. Not starting HawkularMetricsService via ScheduledExecutorService.");
+            } else {
+                BasicThreadFactory factory = new BasicThreadFactory.Builder()
+                    .namingPattern("hawkular-metrics-%d")
+                    .daemon(true)
+                    .priority(Thread.MAX_PRIORITY)
+                    .build();
 
-            LOG.info("Started HawkularMetricsService via ScheduledExecutorService");
+                ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor(factory);
+                exec.scheduleAtFixedRate(new HawkularMetricsRunnable(new HawkularMetricsService(backendManager, client)), 15, 15, TimeUnit.SECONDS);
+
+                LOG.info("Started HawkularMetricsService via ScheduledExecutorService.");
+            }
         } catch (IllegalAccessException e) {
             LOG.error("{}", e);
         }
+    }
+
+    private static HawkularClient getHawkularClient() {
+        HawkularClient client = null;
+        try {
+            Map<String, Object> headers = new HashMap<>();
+            headers.put(HawkularClient.KEY_HEADER_TENANT, HawkularMetricsService.TENANT);
+
+            client = new HawkularClient.Builder()
+                .uri(new URI("http://192.168.99.100:8080"))
+                .username("admin")
+                .password("admin")
+                .headers(headers)
+                .build();
+        } catch (URISyntaxException e) {
+            LOG.error("{}", e);
+        }
+
+        return client;
     }
 }
