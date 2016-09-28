@@ -4,7 +4,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.garethahealy.jolokia-jvm-hawkular</groupId>
+    <parent>
+        <groupId>com.garethahealy.jolokia-jvm-hawkular</groupId>
+        <artifactId>jolokia-jvm-hawkular-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
     <artifactId>cdi-simple-jetty</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
