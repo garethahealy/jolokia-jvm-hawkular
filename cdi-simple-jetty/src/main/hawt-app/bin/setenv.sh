@@ -39,4 +39,8 @@ else
     fi
 fi
 
-export JAVA_OPTIONS=-javaagent:${AGENT_JAR_FILE}=port=7777,host=127.0.0.1
+## Used when NON-SSL
+#JAVA_OPTIONS=-javaagent:${AGENT_JAR_FILE}=port=7777,host=127.0.0.1
+
+# When Jolokia is already configured, and we want to use our embedded agent
+JAVA_OPTIONS="${JAVA_OPTIONS/\/opt\/jolokia\/jolokia.jar/$AGENT_JAR_FILE}"
