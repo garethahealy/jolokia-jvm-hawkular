@@ -22,7 +22,7 @@
     </scm>
 
     <modules>
-        <module>agent</module>
+        <module>agent-embedded</module>
         <module>cdi-simple-jetty</module>
     </modules>
 

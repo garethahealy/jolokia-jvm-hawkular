@@ -1,6 +1,6 @@
 /*
  * #%L
- * GarethHealy :: Jolokia JVM to Hawkular Metrics Agent
+ * GarethHealy :: Jolokia JVM to Hawkular Metrics Agent Embedded
  * %%
  * Copyright (C) 2013 - 2016 Gareth Healy
  * %%
@@ -17,20 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package com.garethahealy.jolokiajvmhawkular.core.metrics;
+package com.garethahealy.jolokiajvmhawkular.core.metrics.collectors;
 
-public class HawkularMetricsRunnable implements Runnable {
+import java.util.Map;
 
-    private final HawkularMetricsService service;
+import org.hawkular.client.core.HawkularClient;
+import org.jolokia.request.JmxRequest;
 
-    public HawkularMetricsRunnable(HawkularMetricsService service) {
-        this.service = service;
-    }
+public interface Collector {
 
-    @Override
-    public void run() {
-        service.run();
-    }
+    JmxRequest generate();
+
+    void process(HawkularClient client, Map<String, Object> data);
 }
-
-

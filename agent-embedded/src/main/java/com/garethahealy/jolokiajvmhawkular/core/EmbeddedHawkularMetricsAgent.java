@@ -1,6 +1,6 @@
 /*
  * #%L
- * GarethHealy :: Jolokia JVM to Hawkular Metrics Agent
+ * GarethHealy :: Jolokia JVM to Hawkular Metrics Agent Embedded
  * %%
  * Copyright (C) 2013 - 2016 Gareth Healy
  * %%
