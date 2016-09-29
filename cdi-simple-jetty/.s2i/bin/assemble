@@ -6,7 +6,8 @@ source /tmp/src/.s2i/bin/s2i-setup
 # Pre-Assemble
 if [ -f $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble ]; then
     if [ ! -x $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble ]; then
-        echo "WARNING: Script $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble not executable."
+        echo "WARNING: Script $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble not executable. Updating"
+        chmod +x $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble
     fi
 fi
 
@@ -16,11 +17,13 @@ if [ -x $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble ]; then
 fi
 
 echo " -----> Running base Assemble $BASE_S2I_SCRIPTS_PATH/assemble"
+$BASE_S2I_SCRIPTS_PATH/assemble
 
 # Post-Assemble
 if [ -f $S2I_SOURCE_DIR/.s2i/action_hooks/post_assemble ]; then
     if [ ! -x $S2I_SOURCE_DIR/.s2i/action_hooks/post_assemble ]; then
-        echo "WARNING: Script $S2I_SOURCE_DIR/.s2i/action_hooks/post_assemble not executable."
+        echo "WARNING: Script $S2I_SOURCE_DIR/.s2i/action_hooks/post_assemble not executable. Updating"
+        chmod +x $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble
     fi
 fi
 
