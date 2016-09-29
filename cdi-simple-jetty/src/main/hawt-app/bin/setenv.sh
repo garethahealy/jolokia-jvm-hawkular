@@ -21,13 +21,22 @@
 ###
 
 AGENT_JAR=${AGENT_JAR:-jolokia-jvm-hawkular-agent-embedded-1.0.0-SNAPSHOT-agent.jar}
+DEPLOYMENTS_DIR=/deployments/bin
+AGENT_JAR_FILE=
 
-if [ -f ${AGENT_JAR} ]; then
-  echo "Using local ${AGENT_JAR}"
+if [ -f ${PWD}/${AGENT_JAR} ]; then
+    echo "Using local ${PWD}/${AGENT_JAR}"
+    AGENT_JAR_FILE=${PWD}/${AGENT_JAR}
 else
-  AGENT_DIR=${AGENT_DIR:-../../../../agent-embedded/target}
-  echo "Agent not local, attempting to get from: ${AGENT_DIR}"
-  cp ${AGENT_DIR}/${AGENT_JAR} .
+    if [ -f ${DEPLOYMENTS_DIR}/${AGENT_JAR} ]; then
+        echo "Using deployments ${DEPLOYMENTS_DIR}/${AGENT_JAR}"
+        AGENT_JAR_FILE=${DEPLOYMENTS_DIR}/${AGENT_JAR}
+    else
+        AGENT_DIR=${AGENT_DIR:-../../../../agent-embedded/target}
+        echo "Agent not local, attempting to get from target: ${AGENT_DIR}"
+        cp ${AGENT_DIR}/${AGENT_JAR} .
+        AGENT_JAR_FILE=${PWD}/${AGENT_JAR}
+    fi
 fi
 
-export JAVA_OPTIONS=-javaagent:${PWD}/${AGENT_JAR}=port=7777,host=127.0.0.1
+export JAVA_OPTIONS=-javaagent:${AGENT_JAR_FILE}=port=7777,host=127.0.0.1
