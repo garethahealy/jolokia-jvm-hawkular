@@ -10,7 +10,6 @@
 RemoteSystemsTempFiles
 
 # General Java Folders #
-bin/
 target/
 
 # Java Package Files #
