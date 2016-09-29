@@ -13,4 +13,4 @@ if [ -f "${S2I_SOURCE_DIR}/configuration/settings.xml" ]; then
   echo "Using custom maven settings from ${S2I_SOURCE_DIR}/configuration/settings.xml"
 fi
 
-mvn -f ${S2I_SOURCE_DIR}/pom.xml dependency:copy-dependencies -Pdownload-agent -DoutputDirectory=${DEPLOYMENTS_DIR}/bin ${MAVEN_EXTRA_ARGS}
+mvn -f ${S2I_SOURCE_DIR}/pom.xml dependency:copy-dependencies -Pdownload-agent -DoutputDirectory=${DEPLOYMENTS_DIR}/bin -DincludeGroupIds=com.garethahealy.jolokia-jvm-hawkular ${MAVEN_EXTRA_ARGS}
