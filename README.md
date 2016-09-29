@@ -66,9 +66,6 @@ Build/Deploy cdi-simple-jetty to OSE
     oc project sample-project
     oc new-app registry.access.redhat.com/jboss-fuse-6/fis-java-openshift~https://github.com/garethahealy/jolokia-jvm-hawkular.git --context-dir=cdi-simple-jetty
 
-## TODO
-- Setup jolokia as per OSE, with certs/ssl
-
 
 
 
