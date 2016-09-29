@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Global S2I variable setup
-source /tmp/src/.s2i/s2i-setup
+source /tmp/src/.s2i/bin/s2i-setup
 
 # Pre-Assemble
 if [ -f $S2I_SOURCE_DIR/.s2i/action_hooks/pre_assemble ]; then
