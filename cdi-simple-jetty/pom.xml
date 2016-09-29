@@ -42,6 +42,7 @@
                     <groupId>com.garethahealy.jolokia-jvm-hawkular</groupId>
                     <artifactId>jolokia-jvm-hawkular-agent-embedded</artifactId>
                     <version>1.0.0-SNAPSHOT</version>
+                    <classifier>agent</classifier>
                 </dependency>
             </dependencies>
         </profile>
