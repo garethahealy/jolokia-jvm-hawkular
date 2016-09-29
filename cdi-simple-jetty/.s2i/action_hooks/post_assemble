@@ -1,3 +1,10 @@
 #!/bin/sh
 
 echo " -----> Post Assemble"
+
+if [ -f "${S2I_SOURCE_DIR}/configuration/settings.xml" ]; then
+  MAVEN_EXTRA_ARGS="-s ${S2I_SOURCE_DIR}/configuration/settings.xml"
+  echo "Using custom maven settings from ${S2I_SOURCE_DIR}/configuration/settings.xml"
+fi
+
+mvn dependency:copy-dependencies -Pdownload-agent -DoutputDirectory=${DEPLOYMENTS_DIR}/bin ${MAVEN_EXTRA_ARGS}
