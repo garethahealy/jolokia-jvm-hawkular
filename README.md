@@ -32,9 +32,10 @@ You can then go to:
     http://localhost:8080/camel/hello?name=bob
 
 ### Running Hawkular Metrics
-To run hawkular metrics, you can use the following repo, which contains all the need Dockerfiles:
+To run hawkular metrics, you can use the following repo, which contains all the needed Dockerfiles:
 
-    https://github.com/garethahealy/hawkular-aio-docker
+    git clone https://github.com/garethahealy/hawkular-aio-docker.git
+    docker-compose up
 
 ## Running Inside of OpenShift
 ### Running example
