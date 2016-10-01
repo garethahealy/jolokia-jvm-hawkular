@@ -4,6 +4,7 @@ before_install:
 - cd hawkular-client-java
 - mvn clean install -DskipTests
 install: mvn clean install -Dgpg.skip=true -DskipTests
+script: /bin/true
 jdk:
   - oraclejdk8
 cache:
