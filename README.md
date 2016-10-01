@@ -8,7 +8,7 @@ The Jolokia Agent is embedded with collectors which collect and then send to Haw
 ### hawkular-client-java
 Since the version of the Hawkular Java Client i am using isn't currently released, you will need to build from source:
     
-    git clone https://github.com/garethahealy/hawkular-client-java.git
+    git clone -b metrics-19 https://github.com/garethahealy/hawkular-client-java.git
     cd hawkular-client-java
     mvn clean install -DskipTests
 
