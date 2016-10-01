@@ -1,8 +1,8 @@
 language: java
 before_install:
-- git clone https://github.com/garethahealy/hawkular-client-java.git && cd hawkular-client-java && mvn clean install -DskipTests
-- cd ..
-- rm -rf hawkular-client-java
+- git clone -b metrics-19 https://github.com/garethahealy/hawkular-client-java.git
+- cd hawkular-client-java && mvn clean install -DskipTests
+- cd .. && rm -rf hawkular-client-java
 install: mvn clean install -Dgpg.skip=true -DskipTests
 script: /bin/true
 jdk:
