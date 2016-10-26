@@ -86,14 +86,9 @@ public final class EmbeddedHawkularMetricsAgent extends CustomJvmAgent {
     private static HawkularClient getHawkularClient() {
         HawkularClient client = null;
         try {
-            Map<String, Object> headers = new HashMap<>();
-            headers.put(HawkularClient.KEY_HEADER_TENANT, HawkularMetricsService.TENANT);
-
-            client = new HawkularClient.Builder()
+            client = HawkularClient.builder(HawkularMetricsService.TENANT)
                 .uri(new URI("http://192.168.99.100:8080"))
-                .username("admin")
-                .password("admin")
-                .headers(headers)
+                .basicAuthentication("jdoe", "password")
                 .build();
         } catch (URISyntaxException e) {
             LOG.error("{}", e);

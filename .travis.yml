@@ -3,7 +3,7 @@ language: java
 jdk:
   - oraclejdk8
 install:
-  - git clone -b metrics-19 https://github.com/garethahealy/hawkular-client-java.git
+  - git clone -b metrics-latest https://github.com/garethahealy/hawkular-client-java.git
   - cd hawkular-client-java && mvn clean install -DskipTests
   - cd .. && rm -rf hawkular-client-java
 before_script:
