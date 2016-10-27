@@ -13,7 +13,7 @@ install:
   - cd hawkular-client-java && mvn clean install -DskipTests
   - cd .. && rm -rf hawkular-client-java
 before_script:
-  - mvn dependency:resolve-plugins dependency:resolve
+  - mvn dependency:resolve-plugins dependency:resolve -B
 script:
   - mvn clean install -B -Dgpg.skip=true
 cache:
