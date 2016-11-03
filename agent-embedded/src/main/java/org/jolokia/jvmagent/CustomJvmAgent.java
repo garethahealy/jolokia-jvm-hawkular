@@ -58,7 +58,7 @@ import java.io.IOException;
  * All configurations will be merged in the following order with the later taking precedence:
  *
  * <ul>
- *   <li>Default properties from <code>/default-jolokia-agent.properties<code>
+ *   <li>Default properties from <code>/default-jolokia-agent.properties</code>
  *   <li>Configuration from a config file (if given)
  *   <li>Options given on the command line in the form
  *       <code>-javaagent:agent.jar=key1=value1,key2=value2...</code>
