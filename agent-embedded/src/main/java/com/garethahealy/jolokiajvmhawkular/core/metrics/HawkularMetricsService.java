@@ -30,6 +30,7 @@ import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.ReflectionException;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.Collector;
 import com.garethahealy.jolokiajvmhawkular.core.metrics.collectors.HeapMemoryUsageCollector;
@@ -60,11 +61,15 @@ public class HawkularMetricsService {
     public void run() {
         LOG.info("Running...");
 
+        JavaType mapClazzKeyType = objectMapper.getTypeFactory().constructType(String.class);
+        JavaType mapClazzValueType = objectMapper.getTypeFactory().constructType(Object.class);
+        JavaType mapClazzType = objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, mapClazzKeyType, mapClazzValueType);
+
         for (Collector current : collectors) {
             JSONObject response = handleRequest(current.generate());
 
             try {
-                Map<String, Object> data = objectMapper.readValue(response.toJSONString(), LinkedHashMap.class);
+                Map<String, Object> data = objectMapper.readValue(response.toJSONString(), mapClazzType);
                 current.process(client, data);
             } catch (IOException e) {
                 LOG.error("{}", e);
