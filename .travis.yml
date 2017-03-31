@@ -12,7 +12,6 @@ install:
 before_script:
   - docker pull fabric8/java-alpine-openjdk8-jdk
   - mvn dependency:resolve-plugins dependency:resolve -B
-
 script:
   - mvn clean install -B -Dgpg.skip=true
 cache:
