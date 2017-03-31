@@ -9,11 +9,10 @@ install:
   - bash .travis/update.sh
   - export M2_HOME=/usr/share/maven3 && export PATH=${M2_HOME}/bin:${PATH} && export MAVEN_OPTS="-Xms2048m -Xmx2048m"
   - java -version && javac -version && mvn -version -B
-  - git clone -b metrics-latest https://github.com/garethahealy/hawkular-client-java.git
-  - cd hawkular-client-java && mvn clean install -DskipTests
-  - cd .. && rm -rf hawkular-client-java
 before_script:
+  - docker pull fabric8/java-alpine-openjdk8-jdk
   - mvn dependency:resolve-plugins dependency:resolve -B
+
 script:
   - mvn clean install -B -Dgpg.skip=true
 cache:
